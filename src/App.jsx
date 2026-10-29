@@ -11,6 +11,7 @@ import AdminImages from './pages/AdminImages.jsx';
 import { getGameQuestions } from './data/people.js';
 import { subscribeToRoom, leaveRoom } from './services/roomService.js';
 import { db } from './services/firebaseService.js';
+import { syncPeopleOverridesFromFirebase } from './services/peopleOverridesService.js';
 import { onValue, ref } from 'firebase/database';
 
 export default function App() {
@@ -81,7 +82,8 @@ export default function App() {
   }, [roomCode]);
 
   // Solo Handlers
-  const handleStartSoloGame = (settings) => {
+  const handleStartSoloGame = async (settings) => {
+    try { await syncPeopleOverridesFromFirebase(); } catch (error) { console.warn('[GuessWho] Gagal menyinkronkan data tokoh dari Firebase:', error); }
     const questions = getGameQuestions(settings.category, settings.roundCount);
     setSoloSettings(settings);
     setSoloQuestions(questions);

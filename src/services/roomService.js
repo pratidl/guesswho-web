@@ -1,6 +1,7 @@
 import { ref, set, get, update, remove, onValue, off } from 'firebase/database';
 import { db, isFirebaseConfigured } from './firebaseService.js';
 import { getGameQuestions } from '../data/people.js';
+import { syncPeopleOverridesFromFirebase } from './peopleOverridesService.js';
 
 const ROOMS_STORAGE_KEY = 'guesswho_local_rooms';
 const BROADCAST_CHANNEL_NAME = 'guesswho_multiplayer_sync';
@@ -257,7 +258,8 @@ export async function startRoomGame(code, settings) {
   const category = settings?.category || 'all';
   const duration = settings?.roundDuration || 30;
 
-  // Generate question set
+  // Pull admin-edited photos, answers and hints before generating the shared question set.
+  try { await syncPeopleOverridesFromFirebase(); } catch (error) { console.warn('[GuessWho] Gagal menyinkronkan override tokoh sebelum multiplayer:', error); }
   const questions = getGameQuestions(category, count);
   const now = Date.now();
 

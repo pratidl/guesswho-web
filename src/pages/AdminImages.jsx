@@ -62,13 +62,24 @@ export default function AdminImages({ onNavigate }) {
   }, [isAdmin]);
 
   const updateDraft = (id, field, value) => setDrafts(prev => ({ ...prev, [id]: { ...(prev[id] || {}), [field]: value } }));
+  // Keep textarea content as raw text while typing. Filtering blank lines on every keystroke
+  // made Enter impossible because React immediately removed the newline.
+  const lineText = (value) => Array.isArray(value) ? value.join('\n') : (typeof value === 'string' ? value : '');
+  const lineArray = (value) => (Array.isArray(value) ? value.join('\n') : String(value ?? '')).split(/\r?\n/).map(v => v.trim()).filter(Boolean);
 
   const save = async () => {
     const next = { ...drafts };
     for (const person of people) {
       const current = next[person.id] || {};
       const imageUrl = urls[person.id] ?? current.imageUrl ?? '';
-      if (imageUrl || current.acceptedAnswers || current.hints) next[person.id] = { ...current, ...(imageUrl ? { imageUrl } : {}) };
+      if (imageUrl || current.acceptedAnswers !== undefined || current.hints !== undefined) {
+        next[person.id] = {
+          ...current,
+          ...(imageUrl ? { imageUrl } : {}),
+          ...(current.acceptedAnswers !== undefined ? { acceptedAnswers: lineArray(current.acceptedAnswers) } : {}),
+          ...(current.hints !== undefined ? { hints: lineArray(current.hints) } : {})
+        };
+      }
     }
     setCloudBusy(true);
     try {
@@ -84,7 +95,7 @@ export default function AdminImages({ onNavigate }) {
 
   const exportFiles = () => {
     const overrideMap = drafts;
-    const apply = (person) => { const o = overrideMap[person.id] || {}; const editedImage = urls[person.id] ?? o.imageUrl; return { ...person, ...(editedImage ? { imageUrl: editedImage } : {}), ...(Array.isArray(o.acceptedAnswers) ? { acceptedAnswers: o.acceptedAnswers } : {}), ...(Array.isArray(o.hints) ? { hints: o.hints } : {}) }; };
+    const apply = (person) => { const o = overrideMap[person.id] || {}; const editedImage = urls[person.id] ?? o.imageUrl; return { ...person, ...(editedImage ? { imageUrl: editedImage } : {}), ...(o.acceptedAnswers !== undefined ? { acceptedAnswers: lineArray(o.acceptedAnswers) } : {}), ...(o.hints !== undefined ? { hints: lineArray(o.hints) } : {}) }; };
     const newIds = new Set(newPeople.map(p => p.id));
     const basePeople = FAMOUS_PEOPLE.filter(p => !newIds.has(p.id)).map(apply);
     const updatedNewPeople = newPeople.map(apply);
@@ -97,81 +108,13 @@ export default function AdminImages({ onNavigate }) {
   const shown = people.filter(p => {
     const q = query.trim().toLowerCase();
     const matches = !q || `${p.name} ${p.category} ${p.nationality}`.toLowerCase().includes(q);
-    const status = filter === 'all' || (filter === 'failed' && (failed[p.id] || (!(p.imageUrl || urls[p.id])))) || (filter === 'loaded' && loaded[p.id]);
+    const status = filter === 'all' || (filter === 'failed' && (failed[p.id] || (!p.imageUrl && !urls[p.id]))) || (filter === 'loaded' && loaded[p.id]);
     return matches && status;
   });
-
-  const findWikipediaImage = async (person) => {
-    const id = person.id;
-    setFallbackTried(prev => ({ ...prev, [id]: true }));
-    setFailed(prev => ({ ...prev, [id]: false }));
-    setSavedMessage(`Mencari foto Wikipedia untuk ${person.name}...`);
-    const title = String(person.wikiTitle || person.name || '')
-      .replace(/^(Ir\.?|Dr\.?|Prof\.?)\s*/i, '')
-      .trim();
-    if (!title) {
-      setFailed(prev => ({ ...prev, [id]: true }));
-      setSavedMessage(`Nama atau judul Wikipedia untuk ${person.name} kosong.`);
-      return;
-    }
-
-    try {
-      const exactUrl = `https://en.wikipedia.org/w/api.php?action=query&format=json&formatversion=2&prop=pageimages&piprop=thumbnail&pithumbsize=700&redirects=1&titles=${encodeURIComponent(title.replace(/ /g, '_'))}&origin=*`;
-      const exactResponse = await fetch(exactUrl, { headers: { Accept: 'application/json' } });
-      const exactData = exactResponse.ok ? await exactResponse.json() : null;
-      let imageUrl = exactData?.query?.pages?.[0]?.thumbnail?.source || '';
-
-      if (!imageUrl) {
-        const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(title)}&gsrnamespace=0&gsrlimit=5&prop=pageimages&piprop=thumbnail&pithumbsize=700&format=json&origin=*`;
-        const searchResponse = await fetch(searchUrl, { headers: { Accept: 'application/json' } });
-        const searchData = searchResponse.ok ? await searchResponse.json() : null;
-        const pages = Object.values(searchData?.query?.pages || {});
-        imageUrl = pages.find(page => page.thumbnail?.source)?.thumbnail?.source || '';
-      }
-
-      if (!imageUrl) {
-        setFailed(prev => ({ ...prev, [id]: true }));
-        setSavedMessage(`Wikipedia tidak menemukan thumbnail untuk ${person.name}. Tempel URL gambar langsung.`);
-        return;
-      }
-
-      setUrls(prev => ({ ...prev, [id]: imageUrl }));
-      setDrafts(prev => ({ ...prev, [id]: { ...(prev[id] || {}), imageUrl } }));
-      setLoaded(prev => ({ ...prev, [id]: false }));
-      setFailed(prev => ({ ...prev, [id]: false }));
-      setSavedMessage(`Foto ditemukan untuk ${person.name}. Periksa kecocokannya, lalu klik Simpan.`);
-    } catch (error) {
-      setFailed(prev => ({ ...prev, [id]: true }));
-      setSavedMessage(`Pencarian foto ${person.name} gagal. Coba lagi atau tempel URL gambar langsung.`);
-      console.error('[GuessWho Admin] Wikipedia image lookup failed:', error);
-    }
-  };
-
-  const reset = (id) => {
-    const next = { ...urls };
-    delete next[id];
-    setUrls(next);
-    setLoaded(prev => ({ ...prev, [id]: false }));
-    setFailed(prev => ({ ...prev, [id]: false }));
-    setFallbackTried(prev => ({ ...prev, [id]: false }));
-    setDrafts(prev => {
-      const copy = { ...prev };
-      if (copy[id]) {
-        delete copy[id].imageUrl;
-        if (!copy[id].hints && !copy[id].acceptedAnswers) delete copy[id];
-      }
-      return copy;
-    });
-  };
-
+  const reset = (id) => { const next = {...urls}; delete next[id]; setUrls(next); setDrafts(prev => { const copy = { ...prev }; if (copy[id]) { delete copy[id].imageUrl; if (!copy[id].hints && !copy[id].acceptedAnswers) delete copy[id]; } return copy; }); };
   const exportFixes = () => {
-    const blob = new Blob([JSON.stringify(urls, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'guesswho-image-overrides.json';
-    a.click();
-    URL.revokeObjectURL(url);
+    const blob = new Blob([JSON.stringify(urls, null, 2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href=url; a.download='guesswho-image-overrides.json'; a.click(); URL.revokeObjectURL(url);
   };
   if (!authReady) return <div className="admin-auth-wrap"><div className="glass-panel admin-auth-card">Memeriksa akses admin...</div></div>;
 
@@ -197,40 +140,46 @@ export default function AdminImages({ onNavigate }) {
     </div>
     {savedMessage && <p>{savedMessage}</p>}
     <div className="admin-image-grid">
-      {shown.map(p => {
-        const url = urls[p.id] ?? drafts[p.id]?.imageUrl ?? p.imageUrl ?? '';
-        const handleAdminImageError = () => {
-          setLoaded(prev => ({ ...prev, [p.id]: false }));
-          setFailed(prev => ({ ...prev, [p.id]: true }));
-        };
-        return <div key={p.id} className="glass-panel admin-image-card">
-          <div style={{ height: '180px', background: '#0f172a', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-            {url
-              ? <img src={url} alt={p.name} onLoad={() => { setLoaded(prev => ({ ...prev, [p.id]: true })); setFailed(prev => ({ ...prev, [p.id]: false })); }} onError={handleAdminImageError} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-              : <span style={{ color: '#94a3b8' }}>URL foto kosong</span>}
-          </div>
-          <strong>{p.name}</strong>
-          <small>{p.category} · {p.nationality || 'Negara tidak tersedia'}</small>
-          <small style={{ color: failed[p.id] || !url ? '#fb7185' : loaded[p.id] ? '#34d399' : 'var(--text-secondary)' }}>
-            {!url ? 'URL kosong' : failed[p.id] ? 'Gagal dimuat' : loaded[p.id] ? 'Berhasil dimuat' : 'Memeriksa gambar...'}
-          </small>
-          <input value={url} onChange={e => setUrls(prev => ({ ...prev, [p.id]: e.target.value }))} placeholder="Tempel URL foto langsung" className="admin-url-input" />
-          <div className="admin-card-actions">
-            <button className="btn btn-secondary" type="button" onClick={() => findWikipediaImage(p)} disabled={Boolean(cloudBusy)}>
-              <Search size={14}/> Cari foto Wikipedia
-            </button>
-          </div>
-          <label className="admin-field-label">Accepted answers (satu jawaban per baris)</label>
-          <textarea className="admin-edit-textarea" value={(drafts[p.id]?.acceptedAnswers ?? p.acceptedAnswers ?? p.aliases ?? []).join('\n')} onChange={e => updateDraft(p.id, 'acceptedAnswers', e.target.value.split('\n').map(v => v.trim()).filter(Boolean))} rows={3} />
-          <label className="admin-field-label">Hints (satu petunjuk per baris)</label>
-          <textarea className="admin-edit-textarea" value={(drafts[p.id]?.hints ?? p.hints ?? []).join('\n')} onChange={e => updateDraft(p.id, 'hints', e.target.value.split('\n').map(v => v.trim()).filter(Boolean))} rows={3} />
-          <div className="admin-card-actions">
-            <button className="btn btn-primary" onClick={save} disabled={cloudBusy || !cloudReady}><Save size={14}/> Simpan</button>
-            <button className="btn btn-secondary" onClick={() => reset(p.id)}><RotateCcw size={14}/> Reset</button>
-            {url && <a className="btn btn-secondary" href={url} target="_blank" rel="noreferrer" title="Buka foto"><ExternalLink size={14}/></a>}
-          </div>
-        </div>;
-      })}
+      {shown.map(p => { const url = urls[p.id] ?? p.imageUrl ?? ''; const handleAdminImageError = async () => {
+        setLoaded(s=>({...s,[p.id]:false}));
+        if (fallbackTried[p.id]) { setFailed(s=>({...s,[p.id]:true})); return; }
+        setFallbackTried(s=>({...s,[p.id]:true}));
+        const title = String(p.name || '').replace(/^(Ir\.?|Dr\.?|Prof\.?)\s*/i, '').trim();
+        try {
+          const endpoint = `https://en.wikipedia.org/w/api.php?action=query&format=json&formatversion=2&prop=pageimages&piprop=thumbnail&pithumbsize=600&redirects=1&titles=${encodeURIComponent(title.replace(/ /g, '_'))}&origin=*`;
+          const response = await fetch(endpoint, { headers: { Accept: 'application/json' } });
+          const data = response.ok ? await response.json() : null;
+          let fallbackUrl = data?.query?.pages?.[0]?.thumbnail?.source;
+          if (!fallbackUrl) {
+            const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(title)}&gsrnamespace=0&gsrlimit=1&prop=pageimages&piprop=thumbnail&pithumbsize=600&format=json&origin=*`;
+            const searchResponse = await fetch(searchUrl, { headers: { Accept: 'application/json' } });
+            const searchData = searchResponse.ok ? await searchResponse.json() : null;
+            fallbackUrl = Object.values(searchData?.query?.pages || {})[0]?.thumbnail?.source;
+          }
+          if (fallbackUrl && fallbackUrl !== url) {
+            // Set the discovered URL into the editable field so admin can save it to Firebase.
+            setUrls(current => ({ ...current, [p.id]: fallbackUrl }));
+            setFailed(current => ({ ...current, [p.id]: false }));
+            setLoaded(current => ({ ...current, [p.id]: false }));
+            return;
+          }
+        } catch (error) {
+          console.warn(`[GuessWho Admin] Gagal mencari foto pengganti untuk ${p.name}:`, error);
+        }
+        setFailed(s=>({...s,[p.id]:true}));
+      }; return <div key={p.id} className="glass-panel admin-image-card">
+        <div style={{height:'180px', background:'#0f172a', borderRadius:'8px', display:'flex', alignItems:'center', justifyContent:'center', overflow:'hidden'}}>
+          {url ? <img src={url} alt={p.name} onLoad={()=>{setLoaded(s=>({...s,[p.id]:true}));setFailed(s=>({...s,[p.id]:false}));}} onError={handleAdminImageError} style={{width:'100%',height:'100%',objectFit:'contain'}} /> : <span>URL foto kosong</span>}
+        </div>
+        <strong>{p.name}</strong><small>{p.category} · {p.nationality || 'Negara tidak tersedia'}</small>
+        <small style={{color:failed[p.id] || !url ? '#fb7185' : loaded[p.id] ? '#34d399' : 'var(--text-secondary)'}}>{!url ? 'URL kosong' : failed[p.id] ? 'Gagal dimuat' : loaded[p.id] ? 'Berhasil dimuat' : 'Memeriksa gambar...'}</small>
+        <input value={url} onChange={e=>setUrls(s=>({...s,[p.id]:e.target.value}))} placeholder="Tempel URL foto langsung" className="admin-url-input" />
+        <label className="admin-field-label">Accepted answers (satu jawaban per baris)</label>
+        <textarea className="admin-edit-textarea" value={lineText(drafts[p.id]?.acceptedAnswers ?? p.acceptedAnswers ?? p.aliases ?? [])} onChange={e=>updateDraft(p.id, 'acceptedAnswers', e.target.value)} rows={3} />
+        <label className="admin-field-label">Hints (satu petunjuk per baris)</label>
+        <textarea className="admin-edit-textarea" value={lineText(drafts[p.id]?.hints ?? p.hints ?? [])} onChange={e=>updateDraft(p.id, 'hints', e.target.value)} rows={3} />
+        <div className="admin-card-actions"><button className="btn btn-primary" onClick={save}><Save size={14}/> Simpan</button><button className="btn btn-secondary" onClick={()=>reset(p.id)}><RotateCcw size={14}/> Reset</button>{url && <a className="btn btn-secondary" href={url} target="_blank" rel="noreferrer" title="Buka foto"><ExternalLink size={14}/></a>}</div>
+      </div>})}
     </div>
     <small>Ditampilkan {shown.length} dari {people.length} tokoh. Deteksi berhasil dimuat tidak menjamin foto menggambarkan orang yang benar, jadi cek visualnya juga.</small>
   </div>;

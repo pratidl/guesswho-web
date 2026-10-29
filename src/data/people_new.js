@@ -535,7 +535,6 @@ export const newPeople = [
     "imageSource": "",
     "acceptedAnswers": [
       "Jackie Chan",
-      "Chan",
       "Cheng Long"
     ]
   },
@@ -1575,7 +1574,8 @@ export const newPeople = [
     "imageUrl": "https://i.pinimg.com/1200x/f3/70/d0/f370d0f58d90ced0da82d26488f8b3c5.jpg",
     "imageSource": "Wikipedia",
     "acceptedAnswers": [
-      "Justin Bieber"
+      "Justin Bieber",
+      "jb"
     ]
   },
   {
@@ -1680,7 +1680,9 @@ export const newPeople = [
     "imageUrl": "https://i.pinimg.com/736x/85/21/77/852177a6ec5ecfc9dec7bc7af351e5fa.jpg",
     "imageSource": "Wikipedia",
     "acceptedAnswers": [
-      "Harry Styles"
+      "Harry Styles",
+      "harry style",
+      "hary styles"
     ]
   },
   {
@@ -1829,7 +1831,8 @@ export const newPeople = [
     "imageSource": "Wikipedia",
     "acceptedAnswers": [
       "Rex Orange Coutry",
-      "ROC"
+      "ROC",
+      "roc"
     ]
   },
   {
@@ -1871,7 +1874,8 @@ export const newPeople = [
     "imageUrl": "https://i.pinimg.com/736x/91/b1/f7/91b1f70a5e4270c8e59ab0d175c2a9b4.jpg",
     "imageSource": "Wikipedia",
     "acceptedAnswers": [
-      "The Weeknd"
+      "The Weeknd",
+      "the weekend"
     ]
   },
   {
@@ -2130,7 +2134,7 @@ export const newPeople = [
     "nationality": "Brunei / Indonesia",
     "profession": "Penyanyi",
     "hints": [
-      "Nama lengkapnya Jaz Hayat.",
+      "Berkarya dari tahun 2016 hingga awal 2020-an.",
       "Lagu “Dari Mata” menjadi salah satu lagu populer di Indonesia.",
       "Dikenal melalui musik pop romantis."
     ],
@@ -2770,7 +2774,8 @@ export const newPeople = [
     "imageUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/Prilly_Latuconsina_-_RISE_2019.jpg/960px-Prilly_Latuconsina_-_RISE_2019.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
     "imageSource": "Wikipedia",
     "acceptedAnswers": [
-      "Prilly Latuconsina"
+      "Prilly Latuconsina",
+      "prilly"
     ]
   },
   {
@@ -2981,7 +2986,8 @@ export const newPeople = [
     "imageUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/52/2024-08-25_Motorsport%2C_Formel_1%2C_Gro%C3%9Fer_Preis_der_Niederlande_2024_STP_3973_by_Stepro_%28medium_crop%29.jpg/960px-2024-08-25_Motorsport%2C_Formel_1%2C_Gro%C3%9Fer_Preis_der_Niederlande_2024_STP_3973_by_Stepro_%28medium_crop%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
     "imageSource": "Wikipedia",
     "acceptedAnswers": [
-      "Max Verstappen"
+      "Max Verstappen",
+      "verstappen"
     ]
   },
   {
@@ -3006,7 +3012,8 @@ export const newPeople = [
     "acceptedAnswers": [
       "Kylian Mbappé",
       "Kylian Mbappe",
-      "Mbappe"
+      "Mbappe",
+      "kiki"
     ]
   },
   {
@@ -3029,7 +3036,9 @@ export const newPeople = [
     "imageSource": "Wikipedia",
     "acceptedAnswers": [
       "Erling Haaland",
-      "Erling Halland"
+      "Erling Halland",
+      "Haaland",
+      "halland"
     ]
   },
   {
@@ -3075,7 +3084,8 @@ export const newPeople = [
     "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/5/52/Stephen_Curry%2C_Olympic_Games_2024_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
     "imageSource": "Wikipedia",
     "acceptedAnswers": [
-      "Stephen Curry"
+      "Stephen Curry",
+      "steph curry"
     ]
   },
   {
@@ -3138,7 +3148,9 @@ export const newPeople = [
     "imageUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ad/Anthony_Sinisuka_Ginting_-_Indonesia_Masters_2018.jpg/960px-Anthony_Sinisuka_Ginting_-_Indonesia_Masters_2018.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
     "imageSource": "Wikipedia",
     "acceptedAnswers": [
-      "Anthony Sinisuka Ginting"
+      "Anthony Sinisuka Ginting",
+      "ginting",
+      "anthony ginting"
     ]
   },
   {
@@ -3159,7 +3171,8 @@ export const newPeople = [
     "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3f/Kevin_Sanjaya_Sukamuljo_won_the_2017_All_England_Open.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
     "imageSource": "Wikipedia",
     "acceptedAnswers": [
-      "Kevin Sanjaya Sukamuljo"
+      "Kevin Sanjaya Sukamuljo",
+      "kevin sanjaya"
     ]
   },
   {
@@ -3180,7 +3193,9 @@ export const newPeople = [
     "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b3/Marcus_Fernaldi_Gideon_won_the_2017_All_England_Open.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
     "imageSource": "Wikipedia",
     "acceptedAnswers": [
-      "Marcus Fernaldi Gideon"
+      "Marcus Fernaldi Gideon",
+      "marcus gideon",
+      "gideon"
     ]
   },
   {
@@ -3201,7 +3216,10 @@ export const newPeople = [
     "imageUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a8/2017_Sea_Games_Badminton_-_Jonatan_Christie_.jpg/960px-2017_Sea_Games_Badminton_-_Jonatan_Christie_.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
     "imageSource": "Wikipedia",
     "acceptedAnswers": [
-      "Jonatan Christie"
+      "Jonatan Christie",
+      "jonathan christie",
+      "jonathan cristie",
+      "jonatan cristie"
     ]
   },
   {
@@ -3243,7 +3261,8 @@ export const newPeople = [
     "imageUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d5/Charles_Leclerc_at_the_2026_Cannes_Film_Festival_%28cropped%29.jpg/960px-Charles_Leclerc_at_the_2026_Cannes_Film_Festival_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
     "imageSource": "Wikipedia",
     "acceptedAnswers": [
-      "Charles Leclerc"
+      "Charles Leclerc",
+      "leclerc"
     ]
   },
   {
@@ -3306,7 +3325,8 @@ export const newPeople = [
     "imageUrl": "https://i.pinimg.com/1200x/a3/10/f8/a310f8d070fca3cb597d0a448720579b.jpg",
     "imageSource": "Wikipedia",
     "acceptedAnswers": [
-      "Conor McGregor"
+      "Conor McGregor",
+      "mcgregor"
     ]
   },
   {
@@ -3369,7 +3389,8 @@ export const newPeople = [
     "imageUrl": "https://i.pinimg.com/736x/db/8a/fe/db8afe511073949636441d93794efdc4.jpg",
     "imageSource": "Wikipedia",
     "acceptedAnswers": [
-      "Jude Bellingham"
+      "Jude Bellingham",
+      "bellingham"
     ]
   },
   {
@@ -3390,7 +3411,8 @@ export const newPeople = [
     "imageUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7f/KingsLeonSilverstne040724_%2828_of_112%29_%2853838006028%29_%28cropped%29.jpg/960px-KingsLeonSilverstne040724_%2828_of_112%29_%2853838006028%29_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
     "imageSource": "Wikipedia",
     "acceptedAnswers": [
-      "George Russell"
+      "George Russell",
+      "rusell"
     ]
   },
   {
@@ -3476,7 +3498,8 @@ export const newPeople = [
     "imageUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1f/Hikaru_Nakamura_at_the_2026_Naroditsky_Memorial_Rapid_and_Blitz_%28v2%29.jpg/960px-Hikaru_Nakamura_at_the_2026_Naroditsky_Memorial_Rapid_and_Blitz_%28v2%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
     "imageSource": "Wikipedia",
     "acceptedAnswers": [
-      "Hikaru Nakamura"
+      "Hikaru Nakamura",
+      "hikaru"
     ]
   },
   {
@@ -3497,7 +3520,8 @@ export const newPeople = [
     "imageUrl": "https://i.pinimg.com/736x/28/e2/17/28e2176dcb60946fcf91a583ca4997f2.jpg",
     "imageSource": "Wikipedia",
     "acceptedAnswers": [
-      "Neymar Jr."
+      "Neymar Jr",
+      "neymar"
     ]
   },
   {
@@ -3518,7 +3542,8 @@ export const newPeople = [
     "imageUrl": "https://i.pinimg.com/1200x/53/a1/de/53a1de853e0ff2e1a39296ec3771f055.jpg",
     "imageSource": "Wikipedia",
     "acceptedAnswers": [
-      "David Beckham"
+      "David Beckham",
+      "beckham"
     ]
   },
   {
@@ -3539,7 +3564,9 @@ export const newPeople = [
     "imageUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e5/TechCrunch_Disrupt_2023_-_Day_1_%28cropped%29.jpg/960px-TechCrunch_Disrupt_2023_-_Day_1_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
     "imageSource": "Wikipedia",
     "acceptedAnswers": [
-      "Shaquille O'Neal"
+      "Shaquille O'Neal",
+      "o neal",
+      "o'neal"
     ]
   },
   {
@@ -3623,7 +3650,8 @@ export const newPeople = [
     "imageUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a4/Bambang_Pamungkas.jpg/960px-Bambang_Pamungkas.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
     "imageSource": "Wikipedia",
     "acceptedAnswers": [
-      "Bambang Pamungkas"
+      "Bambang Pamungkas",
+      "bp"
     ]
   },
   {
@@ -3711,7 +3739,9 @@ export const newPeople = [
     "imageUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ea/IShowSpeed_at_Chinatown_%28Portrait%29_04.jpg/960px-IShowSpeed_at_Chinatown_%28Portrait%29_04.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
     "imageSource": "Wikipedia",
     "acceptedAnswers": [
-      "IShowSpeed"
+      "IShowSpeed",
+      "speed",
+      "i show speed"
     ]
   },
   {
@@ -3795,7 +3825,8 @@ export const newPeople = [
     "imageUrl": "https://i.pinimg.com/736x/51/d8/34/51d834ca93d797f25188e133cc2c0d51.jpg",
     "imageSource": "Wikipedia",
     "acceptedAnswers": [
-      "Reza Arap"
+      "Reza Arap",
+      "yb"
     ]
   },
   {
@@ -3837,7 +3868,8 @@ export const newPeople = [
     "imageUrl": "https://asset.tabloidbintang.com/files/andovi-da-lopez_sen20190405_41.jpg",
     "imageSource": "Wikipedia",
     "acceptedAnswers": [
-      "Andovi da Lopez"
+      "Andovi da Lopez",
+      "andovi"
     ]
   },
   {
@@ -4005,7 +4037,9 @@ export const newPeople = [
     "imageUrl": "https://i.pinimg.com/736x/b3/7e/d3/b37ed3abeaddce7bffaf0adb1e720ce7.jpg",
     "imageSource": "Wikipedia",
     "acceptedAnswers": [
-      "Mister Aloy"
+      "Mister Aloy",
+      "aloy",
+      "mr aloy"
     ]
   },
   {
@@ -4068,7 +4102,8 @@ export const newPeople = [
     "imageUrl": "https://kilasjatim.com/wp-content/uploads/2023/08/866916754.jpg",
     "imageSource": "Wikipedia",
     "acceptedAnswers": [
-      "Panji Petualang"
+      "Panji Petualang",
+      "Panji"
     ]
   },
   {
@@ -4089,7 +4124,8 @@ export const newPeople = [
     "imageUrl": "https://i.pinimg.com/736x/28/5d/08/285d089e1554acf0770c5b7a4ec07224.jpg",
     "imageSource": "Wikipedia",
     "acceptedAnswers": [
-      "Luthfi Halimawan"
+      "Luthfi Halimawan",
+      "Upi"
     ]
   },
   {
@@ -4320,7 +4356,8 @@ export const newPeople = [
     "imageUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7e/Michael_Faraday_sitting_crop.jpg/960px-Michael_Faraday_sitting_crop.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
     "imageSource": "Wikipedia",
     "acceptedAnswers": [
-      "Michael Faraday"
+      "Michael Faraday",
+      "Faraday"
     ]
   },
   {
