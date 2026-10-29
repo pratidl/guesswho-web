@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Volume2, VolumeX, Sparkles, Users, HelpCircle, Trophy, Home } from 'lucide-react';
+import { Volume2, VolumeX, Sparkles, Users, HelpCircle, Trophy, Home, Image as ImageIcon } from 'lucide-react';
 import { soundService } from '../services/soundService.js';
 
 export default function Navbar({ currentScreen, onNavigate }) {
@@ -111,6 +111,16 @@ export default function Navbar({ currentScreen, onNavigate }) {
           >
             <Users size={16} />
             <span className="hide-mobile">With Friends</span>
+          </button>
+
+          <button
+            onClick={() => onNavigate('admin-images')}
+            className={`btn ${currentScreen === 'admin-images' ? 'btn-primary' : 'btn-secondary'}`}
+            style={{ padding: '0.5rem 0.85rem', fontSize: '0.875rem' }}
+            title="Admin Debug Foto"
+          >
+            <ImageIcon size={16} />
+            <span className="hide-mobile">Admin Foto</span>
           </button>
 
           <button

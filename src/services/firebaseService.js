@@ -1,5 +1,6 @@
 import { initializeApp, getApps } from 'firebase/app';
 import { getDatabase } from 'firebase/database';
+import { getAuth } from 'firebase/auth';
 
 /**
  * Firebase Configuration
@@ -27,11 +28,13 @@ export const isFirebaseConfigured = Boolean(
 
 let app = null;
 let db = null;
+let auth = null;
 
 if (isFirebaseConfigured) {
   try {
     app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
     db = getDatabase(app);
+    auth = getAuth(app);
     console.log('[Firebase] Realtime Database initialized successfully.');
   } catch (err) {
     console.warn('[Firebase] Initialization error, fallback active:', err);
@@ -40,4 +43,4 @@ if (isFirebaseConfigured) {
   console.info('[GuessWho] Running in local high-speed multiplayer mode (Broadcast/Storage adapter). To use Firebase cloud, configure .env.local');
 }
 
-export { app, db };
+export { app, db, auth };

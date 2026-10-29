@@ -4,19 +4,6 @@
 export const newPeople = [
   // ===== PRESIDEN & MANTAN PRESIDEN =====
   {
-    id: 'person_101', name: 'Soekarno',
-    aliases: ['Sukarno', 'Bung Karno', 'Ir. Soekarno', 'Ir. Sukarno'],
-    category: 'president', nationality: 'Indonesia',
-    profession: 'Presiden Pertama Republik Indonesia & Proklamator',
-    hints: [
-      'Dikenal sebagai orator ulung dan dijuluki "Penyambung Lidah Rakyat".',
-      'Merumuskan gagasan Pancasila dalam pidato 1 Juni 1945 dan memimpin Konferensi Asia-Afrika 1955 di Bandung.',
-      'Bersama Mohammad Hatta membacakan Proklamasi Kemerdekaan Indonesia pada 17 Agustus 1945.'
-    ],
-    wikiTitle: 'Sukarno', imageUrl: '', imageSource: '',
-    acceptedAnswers: ['Soekarno', 'Sukarno', 'Bung Karno', 'Ir. Soekarno']
-  },
-  {
     id: 'person_102', name: 'Soeharto',
     aliases: ['Suharto', 'Pak Harto', 'HM Soeharto', 'Jenderal Soeharto'],
     category: 'president', nationality: 'Indonesia',
@@ -2137,8 +2124,8 @@ export const newPeople = [
     profession: "YouTuber gaming",
     hints: ["Dikenal lewat video gameplay dan komentar game.", "Nama kanalnya menggabungkan kata “Miaw” dan “Aug”.", "Memiliki komunitas penonton besar di Indonesia."],
     wikiTitle: "MiawAug",
-    imageUrl: "https://i.pinimg.com/1200x/70/9a/3a/709a3a8942f2b46e4a239d63efc2604f.jpg",
-    imageSource: "Pinterest",
+    imageUrl: "",
+    imageSource: "Wikipedia",
     acceptedAnswers: ["MiawAug"]
   },
   {
@@ -2202,8 +2189,8 @@ export const newPeople = [
     profession: "Streamer, musisi, dan kreator konten",
     hints: ["Mulai dikenal melalui konten gaming di YouTube.", "Merupakan anggota grup musik Weird Genius.", "Dikenal sebagai figur penting dalam komunitas streamer Indonesia."],
     wikiTitle: "Reza_Oktovian",
-    imageUrl: "https://i.pinimg.com/736x/02/17/e9/0217e9b625ab11dbd3d15def74dbd426.jpg",
-    imageSource: "Pinterest",
+    imageUrl: "",
+    imageSource: "Wikipedia",
     acceptedAnswers: ["Reza Arap"]
   },
   {
@@ -2306,22 +2293,22 @@ export const newPeople = [
     profession: "Kreator konten dan edukator",
     hints: ["Membuat konten edukasi dan komentar isu sosial.", "Dikenal dengan penjelasan panjang berbasis sumber dan data.", "Juga aktif dalam kegiatan sosial dan penggalangan dana."],
     wikiTitle: "Ferry_Irwandi",
-    imageUrl: "https://i.pinimg.com/736x/d0/ce/43/d0ce43d1e7eedfead89c5fe0f5661aaa.jpg",
-    imageSource: "Pinterest",
+    imageUrl: "",
+    imageSource: "Wikipedia",
     acceptedAnswers: ["Ferry Irwandi"]
   },
   {
-    //    id: "person_278",
-    //name: "Tara Arts",
-    //aliases: ["Tara Arts"],
-    //category: "creator",
-    //nationality: "Indonesia",
-    //profession: "Kreator konten gaming",
-    //hints: ["Dikenal melalui konten gaming dan hiburan di YouTube.", "Membuat video tentang game populer dan budaya internet.", "Menjadi bagian dari komunitas kreator gaming Indonesia."],
-    //wikiTitle: "Tara_Arts",
-    //imageUrl: "",
-    //imageSource: "Wikipedia",
-    //acceptedAnswers: ["Tara Arts"]
+        id: "person_278",
+    name: "Tara Arts",
+    aliases: ["Tara Arts"],
+    category: "creator",
+    nationality: "Indonesia",
+    profession: "Kreator konten gaming",
+    hints: ["Dikenal melalui konten gaming dan hiburan di YouTube.", "Membuat video tentang game populer dan budaya internet.", "Menjadi bagian dari komunitas kreator gaming Indonesia."],
+    wikiTitle: "Tara_Arts",
+    imageUrl: "",
+    imageSource: "Wikipedia",
+    acceptedAnswers: ["Tara Arts"]
   },
   {
         id: "person_279",
@@ -2332,8 +2319,8 @@ export const newPeople = [
     profession: "Kreator konten",
     hints: ["Dikenal sebagai kreator konten hiburan di media sosial.", "Memiliki gaya penyampaian yang khas di video pendek.", "Kontennya banyak beredar di kalangan pengguna media sosial Indonesia."],
     wikiTitle: "Mister_Aloy",
-    imageUrl: "https://i.pinimg.com/736x/c2/f1/cc/c2f1cc6e62a02109df2eaa12f8f65ba9.jpg",
-    imageSource: "Pinterest",
+    imageUrl: "",
+    imageSource: "Wikipedia",
     acceptedAnswers: ["Mister Aloy"]
   },
   {

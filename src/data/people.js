@@ -8,15 +8,13 @@ import { newPeople } from './people_new.js';
 
 export const CATEGORIES = [
   { id: 'all', name: 'Semua Kategori (Acak)', icon: 'Sparkles', desc: 'Tebak tokoh dari semua kategori secara acak' },
-  { id: 'president', name: 'Presiden & Mantan Presiden', icon: 'Crown', desc: 'Pemimpin negara Indonesia & dunia' },
-  { id: 'politician', name: 'Politikus & Pemimpin Negara', icon: 'Landmark', desc: 'Tokoh pemerintahan dan pengambil kebijakan' },
-  { id: 'singer', name: 'Penyanyi & Musisi', icon: 'Music', desc: 'Legenda dan musisi papan atas dunia & lokal' },
-  { id: 'actor', name: 'Aktor & Aktris', icon: 'Film', desc: 'Bintang film dan perfilman ternama' },
-  { id: 'athlete', name: 'Atlet & Olahragawan', icon: 'Trophy', desc: 'Pahlawan olahraga dan juara dunia' },
-  { id: 'creator', name: 'Content Creator & Influencer', icon: 'Video', desc: 'YouTuber, streamer, dan figur media sosial' },
-  { id: 'history', name: 'Tokoh Sejarah', icon: 'BookOpen', desc: 'Pahlawan nasional dan pejuang revolusi dunia' },
-  { id: 'scientist', name: 'Ilmuwan & Penemu', icon: 'Atom', desc: 'Pemikir revolusioner dan pencetus teknologi' },
-  { id: 'other', name: 'Tokoh Terkenal Lainnya', icon: 'Briefcase', desc: 'Pebisnis, visioner industri, dan ikon publik' }
+  { id: 'leader', name: 'Presiden, Politikus & Pemimpin Negara', icon: 'Landmark', desc: 'Presiden, pejabat, dan pemimpin negara' },
+  { id: 'singer', name: 'Penyanyi & Musisi', icon: 'Music', desc: 'Musisi Indonesia dan internasional' },
+  { id: 'actor', name: 'Aktor & Aktris', icon: 'Film', desc: 'Bintang film dan perfilman' },
+  { id: 'athlete', name: 'Atlet & Olahragawan', icon: 'Trophy', desc: 'Atlet dari berbagai cabang olahraga' },
+  { id: 'creator', name: 'Content Creator & Influencer', icon: 'Video', desc: 'YouTuber, streamer, dan kreator digital' },
+  { id: 'history', name: 'Tokoh Sejarah, Ilmuwan & Penemu', icon: 'BookOpen', desc: 'Tokoh sejarah, ilmuwan, dan penemu' },
+  { id: 'other', name: 'Tokoh Terkenal Lainnya', icon: 'Briefcase', desc: 'Pebisnis dan figur publik lainnya' }
 ];
 
 export const FAMOUS_PEOPLE = [
@@ -459,8 +457,8 @@ export const FAMOUS_PEOPLE = [
       'Sering melakukan streaming game seru di YouTube yang dipadukan dengan drama teatrikal lucu dan cosplay.',
       'Streamer asal Manado bernama asli Brando Franco Windah yang sering menggalang dana amal ratusan juta rupiah.'
     ],
-    imageUrl: 'https://i.pinimg.com/736x/c5/fa/25/c5fa25a74ace1a1b5e351626a4bf6936.jpg',
-    imageSource: 'Pinterest',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Windah_Basudara_2023.jpg/480px-Windah_Basudara_2023.jpg',
+    imageSource: 'Wikimedia Commons',
     acceptedAnswers: ['Windah Basudara', 'Windah', 'Brando', 'Brando Franco Windah']
   },
 
@@ -675,17 +673,43 @@ export const FAMOUS_PEOPLE = [
  * @param {number} count - number of questions requested
  * @returns {Array} Shuffled array of person objects
  */
-export function getGameQuestions(categoryId = 'all', count = 5) {
-  let pool = [...FAMOUS_PEOPLE];
-  if (categoryId && categoryId !== 'all') {
-    pool = pool.filter((p) => p.category === categoryId);
-  }
+const CATEGORY_MERGE = (category) => {
+  if (category === 'president' || category === 'politician') return 'leader';
+  if (category === 'scientist' || category === 'history') return 'history';
+  if (category === 'music') return 'singer';
+  return category;
+};
 
-  // Shuffle array using Fisher-Yates
+export function getAllPeopleWithOverrides() {
+  let imageOverrides = {};
+  let personOverrides = {};
+  try { imageOverrides = JSON.parse(localStorage.getItem('guesswho_image_overrides') || '{}'); } catch { imageOverrides = {}; }
+  try { personOverrides = JSON.parse(localStorage.getItem('guesswho_people_overrides') || '{}'); } catch { personOverrides = {}; }
+  const seen = new Set();
+  return FAMOUS_PEOPLE.map((p) => {
+    const override = personOverrides[p.id] || {};
+    return {
+      ...p,
+      ...override,
+      category: CATEGORY_MERGE(p.category),
+      imageUrl: imageOverrides[p.id] ?? override.imageUrl ?? p.imageUrl,
+      hints: Array.isArray(override.hints) ? override.hints : p.hints,
+      acceptedAnswers: Array.isArray(override.acceptedAnswers) ? override.acceptedAnswers : p.acceptedAnswers
+    };
+  }).filter((p) => {
+    const key = String(p.name || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    if (!key || seen.has(key)) return false;
+    seen.add(key); return true;
+  });
+}
+
+export function getGameQuestions(categoryId = 'all', count = 5) {
+  let pool = getAllPeopleWithOverrides();
+  if (categoryId && categoryId !== 'all') pool = pool.filter((p) => p.category === CATEGORY_MERGE(categoryId));
+  // Shuffle without replacement: each person can appear only once in a match.
   for (let i = pool.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [pool[i], pool[j]] = [pool[j], pool[i]];
   }
-
   return pool.slice(0, Math.min(count, pool.length));
 }

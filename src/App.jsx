@@ -7,8 +7,11 @@ import RoomLobby from './pages/RoomLobby.jsx';
 import Game from './pages/Game.jsx';
 import Results from './pages/Results.jsx';
 import HowToPlay from './pages/HowToPlay.jsx';
+import AdminImages from './pages/AdminImages.jsx';
 import { getGameQuestions } from './data/people.js';
 import { subscribeToRoom, leaveRoom } from './services/roomService.js';
+import { db } from './services/firebaseService.js';
+import { onValue, ref } from 'firebase/database';
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState('home');
@@ -28,6 +31,18 @@ export default function App() {
   const [playerId, setPlayerId] = useState(() => {
     return localStorage.getItem('guesswho_player_id') || ('player_' + Math.random().toString(36).substring(2, 9));
   });
+
+  // Load admin-edited person data from Firebase so every device uses the same photo, hints, and accepted answers.
+  useEffect(() => {
+    if (!db) return undefined;
+    return onValue(ref(db, 'adminOverrides/people'), (snapshot) => {
+      const overrides = snapshot.val() || {};
+      localStorage.setItem('guesswho_people_overrides', JSON.stringify(overrides));
+      const images = Object.fromEntries(Object.entries(overrides).filter(([, value]) => value?.imageUrl).map(([id, value]) => [id, value.imageUrl]));
+      localStorage.setItem('guesswho_image_overrides', JSON.stringify(images));
+      window.dispatchEvent(new Event('guesswho-overrides-updated'));
+    }, (error) => console.error('[GuessWho] Failed to sync admin overrides:', error));
+  }, []);
 
   // Subscribe to room updates when in multiplayer
   useEffect(() => {
@@ -208,6 +223,8 @@ export default function App() {
             onBackToHome={handleLeaveMultiplayer}
           />
         )}
+
+        {currentScreen === 'admin-images' && <AdminImages onNavigate={handleNavigate} />}
 
         {/* How to Play Screen */}
         {currentScreen === 'how-to-play' && (

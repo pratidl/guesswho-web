@@ -1,0 +1,14 @@
+{
+  "rules": {
+    "rooms": {
+      "$roomCode": {
+        ".read": true,
+        ".write": true
+      }
+    },
+    "imageOverrides": {
+      ".read": true,
+      ".write": "auth != null && auth.token.email === 'GANTI_DENGAN_EMAIL_ADMIN'"
+    }
+  }
+}
