@@ -4013,7 +4013,7 @@ export const newPeople = [
       "Menjadi bagian dari komunitas kreator gaming Indonesia."
     ],
     "wikiTitle": "Tara_Arts",
-    "imageUrl": "https://api.duniagames.co.id/api/content/upload/file/1311794791577435649.jpg",
+    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlDmE5epwZUPnM2DBO2x3_8rm_MQ6pKUcpcB43a8pIVN7SHZ-7B5qY2VA8&s=10",
     "imageSource": "Wikipedia",
     "acceptedAnswers": [
       "Tara Arts"
